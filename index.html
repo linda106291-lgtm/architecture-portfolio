@@ -59,8 +59,11 @@ camera.position.set(5,5,5);
 // 渲染
 
 const renderer=new THREE.WebGLRenderer({
-antialias:true
+    antialias:true,
+    alpha:false
 });
+
+renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.setSize(
 window.innerWidth,
@@ -68,17 +71,35 @@ window.innerHeight
 );
 
 document.body.appendChild(renderer.domElement);
-
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // 光源
 
-const light=new THREE.HemisphereLight(
-0xffffff,
-0x444444,
-3
+const hemiLight = new THREE.HemisphereLight(
+    0xffffff,
+    0x666666,
+    3
 );
 
-scene.add(light);
+scene.add(hemiLight);
+
+
+
+const sun = new THREE.DirectionalLight(
+    0xffffff,
+    4
+);
+
+sun.position.set(
+    10000,
+    15000,
+    10000
+);
+
+sun.castShadow = true;
+
+scene.add(sun);
 
 
 // 控制
