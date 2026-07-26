@@ -120,28 +120,21 @@ console.log("模型中心:", center);
 
 // 移動模型到原點
 
-model.position.sub(center);
-
-
-// 重新計算大小
-
-const maxSize = Math.max(
-size.x,
-size.y,
-size.z
-);
-
-
-// 設定相機
+// 不移動模型，直接對準模型中心
 
 camera.position.set(
-maxSize * 2,
-maxSize * 2,
-maxSize * 2
+center.x + size.x,
+center.y + size.y,
+center.z + size.z
 );
 
 
-camera.lookAt(0,0,0);
+camera.lookAt(center);
+
+
+controls.target.copy(center);
+
+controls.update();
 
 
 controls.target.set(0,0,0);
