@@ -50,7 +50,7 @@ const camera=new THREE.PerspectiveCamera(
 45,
 window.innerWidth/window.innerHeight,
 0.1,
-1000
+100000
 );
 
 camera.position.set(5,5,5);
@@ -123,9 +123,9 @@ console.log("模型中心:", center);
 // 不移動模型，直接對準模型中心
 
 camera.position.set(
-center.x + size.x,
-center.y + size.y,
-center.z + size.z
+center.x + size.x * 2,
+center.y + size.y * 2,
+center.z + size.z * 2
 );
 
 
@@ -135,7 +135,16 @@ camera.lookAt(center);
 controls.target.copy(center);
 
 controls.update();
+const marker = new THREE.Mesh(
+    new THREE.SphereGeometry(50),
+    new THREE.MeshBasicMaterial({
+        color:0xff0000
+    })
+);
 
+marker.position.copy(center);
+
+scene.add(marker);
 
 
 
