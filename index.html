@@ -100,12 +100,50 @@ loader.load(
 
 function(gltf){
 
-scene.add(gltf.scene);
+const model = gltf.scene;
+
+scene.add(model);
+
+
+// 計算模型大小
+
+const box = new THREE.Box3().setFromObject(model);
+
+const size = box.getSize(new THREE.Vector3());
+
+const center = box.getCenter(new THREE.Vector3());
+
+
+// 將模型移到中心
+
+model.position.x -= center.x;
+model.position.y -= center.y;
+model.position.z -= center.z;
+
+
+// 自動調整相機距離
+
+const maxSize = Math.max(
+size.x,
+size.y,
+size.z
+);
+
+camera.position.set(
+maxSize * 1.5,
+maxSize * 1.5,
+maxSize * 1.5
+);
+
+
+controls.target.set(0,0,0);
+
+controls.update();
+
 
 console.log("模型成功載入");
 
 },
-
 undefined,
 
 function(error){
