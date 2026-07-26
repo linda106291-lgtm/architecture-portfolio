@@ -1,17 +1,131 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>我的建築作品集</title>
+<meta charset="UTF-8">
+<title>3D 建築模型展示</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+}
+</style>
+
 </head>
+
 
 <body>
 
-<h1>歡迎來到我的建築作品集！</h1>
 
-<p>這是我的第一個 GitHub 網站。</p>
+<script type="module">
+
+import * as THREE from 
+"https://unpkg.com/three@0.160.0/build/three.module.js";
+
+import {OrbitControls} from 
+"https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+import {GLTFLoader} from 
+"https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+
+
+// 建立場景
+
+const scene=new THREE.Scene();
+
+scene.background=new THREE.Color(0xffffff);
+
+
+// 相機
+
+const camera=new THREE.PerspectiveCamera(
+45,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
+
+camera.position.set(5,5,5);
+
+
+// 渲染
+
+const renderer=new THREE.WebGLRenderer({
+antialias:true
+});
+
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
+
+document.body.appendChild(renderer.domElement);
+
+
+// 光源
+
+const light=new THREE.HemisphereLight(
+0xffffff,
+0x444444,
+3
+);
+
+scene.add(light);
+
+
+// 控制
+
+const controls=new OrbitControls(
+camera,
+renderer.domElement
+);
+
+
+// 載入模型
+
+const loader=new GLTFLoader();
+
+
+loader.load(
+
+"暑二.glb",
+
+function(gltf){
+
+scene.add(gltf.scene);
+
+console.log("模型成功載入");
+
+},
+
+undefined,
+
+function(error){
+
+console.log(error);
+
+}
+
+);
+
+
+// 動畫
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+controls.update();
+
+renderer.render(scene,camera);
+
+}
+
+animate();
+
+
+</script>
+
 
 </body>
-
 </html>
